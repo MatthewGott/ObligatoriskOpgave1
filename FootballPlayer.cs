@@ -1,24 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Opgave1Football
 {
+    
     public class FootballPlayer
     {
-        //Static int that is used for generating unique ID's for all instances of this Class
-        private static int NextID;
+        public static List<int> IDList = new List<int>();
+
 
         //Properties of the Class
+        
         public int ID;
         public string Name;
         public int Price;
         public int ShirtNumber;
 
         //The Constructor for the Class
-        public FootballPlayer(string name, int price, int shirtnumber)
+        public FootballPlayer(int id, string name, int price, int shirtnumber)
         {
             //Sets the ID for the Player
-            ID = NextID;
-            ++NextID;
+            if (IDList.Contains(id) == false) {
+                ID = id;
+                IDList.Add(id);
+                }
+            else throw new ArgumentOutOfRangeException("ID is already in Use");
 
             //Checks Name length and applies if valid, throws an exception if invalid
             if (name.Length >= 4) Name = name;
@@ -32,6 +38,9 @@ namespace Opgave1Football
             if (shirtnumber > 0 && shirtnumber < 101) ShirtNumber = shirtnumber;
             else throw new ArgumentOutOfRangeException("Invalid ShirtNumber submitted, must be higher than 0 AND lower than 101");
         }
+
+        //Empty Constructor - Used for JSON
+        public FootballPlayer() { }
 
         public override string ToString()
         {
